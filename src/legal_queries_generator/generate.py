@@ -11,9 +11,6 @@ from tqdm import tqdm
 from .input_prompt import input_prompt
 from .utils import escape_json_string
 
-
-__all__ = ["Content", "generate_and_save_queries", "generate_batch"]
-
 # Setup logging
 
 log_dir = "./logs"
@@ -153,7 +150,6 @@ def get_questions_from_message(message: str) -> tuple[list[str], list[str]]:
 def get_questions_from_batch(
     messages: list[str],
 ) -> tuple[list[list[str]], list[list[str]]]:
-
     aspects_list = []
     questions_list = []
     for message in messages:

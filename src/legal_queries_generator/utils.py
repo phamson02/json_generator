@@ -1,5 +1,4 @@
 def escape_json_string(json_string):
-
     json_string = (
         json_string.replace("\n", "")
         .replace("\r", "")
