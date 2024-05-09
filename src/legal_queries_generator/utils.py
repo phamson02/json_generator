@@ -1,4 +1,4 @@
-def escape_json_string(json_string):
+def escape_json_string(json_string: str) -> str:
     json_string = (
         json_string.replace("\n", "")
         .replace("\r", "")
@@ -18,7 +18,7 @@ def escape_json_string(json_string):
     # Tracking whether we are inside a JSON string
     in_string = False
     # Result container
-    result = []
+    result: list[str] = []
     # Iterate through the string by index and character
     i = 0
     while i < len(input_json):

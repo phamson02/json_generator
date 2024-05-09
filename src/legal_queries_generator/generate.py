@@ -5,7 +5,7 @@ import os
 from collections.abc import Callable
 from typing import Optional
 
-from tenacity import retry, stop_after_attempt
+from tenacity import retry, stop_after_attempt, RetryCallState
 from tqdm import tqdm
 
 from .input_prompt import input_prompt
@@ -76,7 +76,7 @@ class Content:
 
 
 def batch_completion_error_callback(
-    retry_state,
+    retry_state: RetryCallState,
 ) -> tuple[list[str], list[str]]:
     logging.error(f"Error: {retry_state.outcome}")
     return [], []
@@ -150,8 +150,8 @@ def get_questions_from_message(message: str) -> tuple[list[str], list[str]]:
 def get_questions_from_batch(
     messages: list[str],
 ) -> tuple[list[list[str]], list[list[str]]]:
-    aspects_list = []
-    questions_list = []
+    aspects_list: list[list[str]] = []
+    questions_list: list[list[str]] = []
     for message in messages:
         aspects, questions = get_questions_from_message(message)
         aspects_list.append(aspects)
@@ -188,7 +188,6 @@ def generate_and_save_queries(
                 content_id = batch_index * batch_size + content_index
                 json_record = json.dumps(
                     {"id": content_id, "aspects": aspects, "queries": questions},
-                    indent=4,
                     ensure_ascii=False,
                 )
 
