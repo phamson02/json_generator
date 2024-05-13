@@ -8,7 +8,16 @@
 #   with-sources: false
 
 -e file:.
+annotated-types==0.6.0
+    # via pydantic
+pydantic==2.7.1
+    # via json-generator
+pydantic-core==2.18.2
+    # via pydantic
 tenacity==8.2.3
-    # via legal-queries-generator
+    # via json-generator
 tqdm==4.66.4
-    # via legal-queries-generator
+    # via json-generator
+typing-extensions==4.11.0
+    # via pydantic
+    # via pydantic-core

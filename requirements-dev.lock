@@ -8,14 +8,23 @@
 #   with-sources: false
 
 -e file:.
+annotated-types==0.6.0
+    # via pydantic
 iniconfig==2.0.0
     # via pytest
 packaging==24.0
     # via pytest
 pluggy==1.5.0
     # via pytest
+pydantic==2.7.1
+    # via json-generator
+pydantic-core==2.18.2
+    # via pydantic
 pytest==8.2.0
 tenacity==8.2.3
-    # via legal-queries-generator
+    # via json-generator
 tqdm==4.66.4
-    # via legal-queries-generator
+    # via json-generator
+typing-extensions==4.11.0
+    # via pydantic
+    # via pydantic-core

@@ -1,4 +1,20 @@
-from legal_queries_generator import generate_batch, Content
+from json_generator import generate_batch, InputModel, OutputModel
+
+
+class LegalPassage(InputModel):
+    input_prompt: str = "{$DOC_DOMAIN} - {$DOC_SOURCE} - {$DOC_GROUNDED_CONTENT}"
+    domain: str
+    source: str
+    grounded_content: str
+
+
+class LegalQueries(OutputModel):
+    aspects: list[str]
+    questions: list[str]
+
+    @classmethod
+    def empty(cls) -> "LegalQueries":
+        return LegalQueries(aspects=[], questions=[])
 
 
 def mock_bad_generator(texts: list[str]) -> list[str]:
@@ -18,40 +34,48 @@ def mock_somewhat_bad_generator(texts: list[str]) -> list[str]:
 
 
 def test_bad_generate():
-    contents = [
-        Content(
+    passages = [
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
+            source="Bộ luật dân sự 2015",
             grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
-        Content(
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
-            grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
+            source="Bộ luật dân sự 2015",
+            grounded_content="Người có nghĩa v  `ụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
     ]
 
-    aspects, questions = generate_batch(contents, mock_bad_generator)
+    outputs: list[LegalQueries] = generate_batch(
+        passages, LegalQueries, mock_bad_generator
+    )
+    aspects = [output.aspects for output in outputs]
+    questions = [output.questions for output in outputs]
 
     assert aspects == [[], []]
     assert questions == [[], []]
 
 
 def test_good_generate():
-    contents = [
-        Content(
+    passages = [
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
+            source="Bộ luật dân sự 2015",
             grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
-        Content(
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
+            source="Bộ luật dân sự 2015",
             grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
     ]
 
-    aspects, questions = generate_batch(contents, mock_good_generator)
+    outputs: list[LegalQueries] = generate_batch(
+        passages, LegalQueries, mock_good_generator
+    )
+    aspects = [output.aspects for output in outputs]
+    questions = [output.questions for output in outputs]
 
     assert aspects == [
         [
@@ -76,20 +100,24 @@ def test_good_generate():
 
 
 def test_somewhat_bad_generate():
-    contents = [
-        Content(
+    passages = [
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
+            source="Bộ luật dân sự 2015",
             grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
-        Content(
+        LegalPassage(
             domain="CIVIL",
-            metadata="Bộ luật dân sự 2015",
+            source="Bộ luật dân sự 2015",
             grounded_content="Người có nghĩa vụ trả tiền thuê nhà phải trả tiền thuê đúng hạn, trừ trường hợp có thoả thuận khác.",
         ),
     ]
 
-    aspects, questions = generate_batch(contents, mock_somewhat_bad_generator)
+    outputs: list[LegalQueries] = generate_batch(
+        passages, LegalQueries, mock_somewhat_bad_generator
+    )
+    aspects = [output.aspects for output in outputs]
+    questions = [output.questions for output in outputs]
 
     assert aspects == [
         [

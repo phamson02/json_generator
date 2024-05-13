@@ -1,3 +1,3 @@
-# legal-queries-generator
+# json-generator
 
 Describe your project here.
