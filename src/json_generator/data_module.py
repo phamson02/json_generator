@@ -19,8 +19,8 @@ class InputModel(ABC, BaseModel):
 
 
 class OutputModel(ABC, BaseModel):
-
     @classmethod
     @abstractmethod
     def empty(cls) -> "OutputModel":
+        """Returned empty object when no data is available."""
         pass
